@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram-like Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .icon-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .icon-container i {
+      cursor: pointer;
+      font-size: 24px;
+      margin: 0 10px;
+    }
+    .grid-view .card-img-top {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      margin: 0 auto; /* Centra las imágenes */
+      border-radius: 10px; /* Redondea las esquinas */
+    }
+    .list-view .card-img-top {
+      width: 100%; /* Ajusta el ancho al 100% del contenedor */
+      height: auto; /* Permite que la altura se ajuste automáticamente */
+      max-height: 800px; /* Ajusta la altura máxima */
+      object-fit: cover;
+      margin: 0 auto; /* Centra las imágenes */
+      border-radius: 0; /* No redondea las esquinas */
+    }
+    .grid-view .card {
+      margin-bottom: 15px;
+      margin-right: 15px;
+      
+      .grid-view .row {
+      margin-left: -15px; /* Añade un margen a la izquierda para compensar el margen de los elementos de la cuadrícula */
+    }
+    }
+    .list-view .card {
+      margin-bottom: 30px;
+      max-width: 520px; /* Aumenta el tamaño máximo en un 30% */
+      margin: 30px auto; /* Espacio entre imágenes y centra la tarjeta */
+      padding-top: 0; /* Elimina el padding superior */
+    }
+    .list-view .card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px; /* Ajusta el padding */
+      position: relative; /* Necesario para el posicionamiento absoluto de los likes */
+    }
+    .list-view .card-body .card-title {
+      order: -1;
+      padding: 0; /* Elimina el padding del título */
+      width: 100%; /* Hace que el título ocupe todo el ancho */
+      display: flex;
+      justify-content: space-between;
+      border-top-left-radius: 5px; /* Redondea las esquinas superiores */
+      border-top-right-radius: 5px; /* Redondea las esquinas superiores */
+    }
+    .list-view .card-body .card-text {
+      border-bottom-left-radius: 5px; /* Redondea las esquinas inferiores */
+      border-bottom-right-radius: 5px; /* Redondea las esquinas inferiores */
+      padding-top: 20px; /* Aumenta el espacio superior para que no invada los likes */
+    }
+    .list-view .likes {
+      position: absolute;
+      top: 10px; /* Ajusta la posición para que esté dentro del apartado de la descripción */
+      left: 10px;
+      background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente para mejor visibilidad */
+      padding: 5px 10px;
+      border-radius: 5px; /* Redondea las esquinas del fondo */
+      font-weight: bold;
+      margin-top: -10px; /* Aumenta el espacio para que no se superponga */
+    }
+    .list-view .date {
+      font-size: 0.9em;
+      color: #777;
+    }
+    .btn-green {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: white;
+    }
+    .btn-white {
+      background-color: white;
+      color: black;
+      border: 1px solid #ced4da;
+    }
+    .btn-white i {
+      color: black;
+    }
+    .btn-grey {
+      background-color: grey;
+      border-color: grey;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand" href="#">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="30" height="30" alt="Instagram logo">
+      Instagram
+    </a>
+    <div class="form-inline">
+      <button class="btn btn-success mr-2" type="button" id="newPostButton" data-toggle="modal" data-target="#newPostModal">
+        <i class="fas fa-plus"></i> Create a new post
+      </button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-cog"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Accessibility</a>
+          <a class="dropdown-item" href="#">Privacy and Data</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Log out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Icons to switch views -->
+  <div class="icon-container">
+    <i class="fas fa-th" id="gridViewIcon"></i>
+    <i class="fas fa-bars" id="listViewIcon"></i>
+  </div>
+
+  <!-- Image container -->
+  <div class="container" id="imageContainer">
+    <!-- Example grid view images -->
+    <div class="row grid-view">
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://cdn.andro4all.com/andro4all/2023/04/34ef9217-52d8-4e4b-9ba1-349e7570d8e4.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://marketing4ecommerce.net/wp-content/uploads/2024/02/imagen-generada-con-dalle-3-1-e1708692706459.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://png.pngtree.com/thumb_back/fh260/background/20230527/pngtree-the-small-kid-looks-sad-while-sitting-on-the-ground-image_2681004.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://i.ytimg.com/vi/hE9lsLge1Rs/maxresdefault.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://www.lavanguardia.com/andro4all/hero/2023/04/6d8841b6-9d24-457a-95c5-0d3de1d7bf5f.png?width=768&aspect_ratio=16:9&format=nowebp" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://concepto.de/wp-content/uploads/2020/12/imagen-e1607991758274-800x400.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://cdn.shopify.com/s/files/1/0229/0839/files/bancos_de_imagenes_gratis.jpg?v=1630420628" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://assets-cdn.123rf.com/index/static/assets/home/ttisection-img-1-v5.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="https://media.es.wired.com/photos/650b2a2e72d73ca3bd5ef0cc/16:9/w_2560%2Cc_limit/Business-OpenAI-Dall-E-3-heart.jpg" class="card-img-top" alt="...">
+        </div>
+      </div>
+    </div>
+    <!-- Example list view images -->
+    <div class="row list-view d-none">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              My Crazy dog Spark!
+              <span class="date">08/26</span>
+            </h5>
+          </div>
+          <img src="https://st2.depositphotos.com/2222024/5609/i/450/depositphotos_56093859-stock-photo-happy-little-orange-havanese-puppy.jpg/400x1200" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="likes">204 Likes</div>
+            <p class="card-text">This is an example of a very good photo that you can post on Instagram.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              Amazing GOAL by Cristiano!
+              <span class="date">06/10</span>
+            </h5>
+          </div>
+          <img src="https://www.thesun.co.uk/wp-content/uploads/2018/04/nintchdbpict000396491461-e1522955467693.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="likes">69000 Likes</div>
+            <p class="card-text">This is another example of an amazing goal that you can post on Instagram.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              Beautiful Scenery!
+              <span class="date">09/15</span>
+            </h5>
+          </div>
+          <img src="https://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/Croatia/croatia-body-GettyImages.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="likes">500 Likes</div>
+            <p class="card-text">This is an example of a beautiful scenery photo that you can post on Instagram.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Post Modal -->
+  <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newPostModalLabel">Create a new post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="postCaption">Caption</label>
+              <textarea class="form-control" id="postCaption" rows="3" placeholder="Add the caption of your post here"></textarea>
+            </div>
+            <button type="button" class="btn btn-white"><i class="fas fa-camera"></i></button>
+            <button type="button" class="btn btn-white"><i class="fas fa-map-marker-alt"></i></button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-grey" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary btn-green">Publish</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#gridViewIcon').on('click', function() {
+        $('#imageContainer .list-view').addClass('d-none');
+        $('#imageContainer .grid-view').removeClass('d-none');
+      });
+
+      $('#listViewIcon').on('click', function() {
+        $('#imageContainer .grid-view').addClass('d-none');
+        $('#imageContainer .list-view').removeClass('d-none');
+      });
+    });
+  </script>
+</body>
+</html>
