@@ -19,11 +19,15 @@
       margin: 0 10px;
     }
     .grid-view .card-img-top {
-      width: 400px;
+      width: 480px;
       height: 400px;
       object-fit: cover;
       margin: 0 auto; /* Centra las imágenes */
       border-radius: 10px; /* Redondea las esquinas */
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
     .list-view .card-img-top {
       width: 100%; /* Ajusta el ancho al 100% del contenedor */
@@ -38,7 +42,9 @@
       margin-right: 15px;
       
       .grid-view .row {
-      margin-left: -15px; /* Añade un margen a la izquierda para compensar el margen de los elementos de la cuadrícula */
+      margin-left: 15px; /* Añade un margen a la izquierda para compensar el margen de los elementos de la cuadrícula */
+      margin-right: 15px;
+      object-fit:cover;
     }
     }
     .list-view .card {
@@ -99,6 +105,10 @@
       background-color: grey;
       border-color: grey;
       color: white;
+    }
+    .card{
+      height: 400px;
+      width: 400px;
     }
   </style>
 </head>
